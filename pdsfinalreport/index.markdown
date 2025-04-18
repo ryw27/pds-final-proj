@@ -43,6 +43,15 @@ To compare the two distributions of win rates, the plots were overlaid next to e
 ![Vi and Jinx Popularity Comparison](../viandjinx(1).png)
 *Figure 4: Side-by-side box plots of win rate distributions for Vi vs for Jinx*
 
+### **Interesting Aggregates**
+
+        Jinx   Vi
+Result           
+0       1675  303
+1       1674  266
+
+To put the counts of wins for teams with Vi and Jinx into an easy-to-read table, we created a pivot table to show the win frequencies. There seems to be an equal amount of wins and losses for teams with Jinx, while for teams with Vi there are actually more losses than wins.
+
 ### **Prediction Problem**
 
 Since the distribution of win rates varired widely, an interesting research question was whether the result of a game containing Jinx and Vi as chosen characters could be predicted. This is a binary classification problem, since the model must know from the chosen columns whether the team with Jinx or Vi will win or not, simply 1 or 0. 
@@ -65,7 +74,7 @@ The first step was to create the model pipeline. The character pick columns were
 
 ### **Final Model**
 
-Although the results were not terrible, they could be better. Once again, the character picks were one-hot encoded. Next, Polynomial Features were added to increase the complexity of the model for the 3 10-minute features. The features were scaled to prevent large coefficients before being put through Logistic Regression again. A grid search of the optimal degree for the polynomial features and C value of Logistic Regression, or the strength of Regularization. The Grid Search included a cross validation of 5 iterations. Again, a threshold of .5 was used. The results are displayed below. 
+Although the results were not terrible, they could be better. Once again, the character picks were one-hot encoded. Next, Polynomial Features were added to increase the complexity of the model for the 3 10-minute features. We did this to see whether there was a non-linear relationship between these statistics and the win/loss of the game. The features were scaled to prevent large coefficients before being put through Logistic Regression again. A grid search of the optimal degree for the polynomial features and C value of Logistic Regression, or the strength of Regularization. The Grid Search included a cross validation of 5 iterations. Again, a threshold of .5 was used. The results are displayed below. 
 
 | Evaluation Metric | Value |
 |------------------|-------|
@@ -77,7 +86,7 @@ Although the results were not terrible, they could be better. Once again, the ch
 
 The ideal paramaters were 2 for the polynomial degree and 1 for C or the regularization strength. The Logistic Regression penalty used was "l2" and the solver was scikit-learn's "lbgfs". \Unfortunately, the results didn't improve much, except for the F1 score which the model was specifically optimized for, increasing by .05. 
 
-We decided to try the Random Forest Classifier as well, grid searching over the polynomial features degree as well as the  number of random forest classifier trees. This model performed worse. The best paramaters were a degree of 2 for the polynomial and 300 trees. 
+We decided to try the Random Forest Classifier as well, grid searching over the polynomial features degree as well as the  number of random forest classifier trees. We did this because we had a lot of data and Random Forest Classifiers perform better with large datasets, but this model performed worse. The best paramaters were a degree of 2 for the polynomial and 300 trees. 
 
 | Evaluation Metric | Value |
 |------------------|-------|
@@ -98,6 +107,8 @@ Although not traditionally used for classification problems, we also attempted t
 *Table 4: Results of the final model (Linear Regression)*
 
 Weirdly, the Linear Regression worked the best. The best paramater for the polynomial was simply 2. Although difficult to pinpoint the exact reason, we hypothesized that maybe the relationship between early-game statistics and the result was more linear than we speculated. Or, the classification models could have been overfitting. 
+
+Because the Logistic Regression Model with PolyFeatures performed better than Random Forest, and because Linear Regression likely is only better by coincidence, we choose the Logistic Regression Model with PolyFeatures as our final model.
 
 ### **Conclusion**
 With more late-game statistics, the model likely would have been more accurate, but less useful. Additionally, due to the intentional balancing of League of Legends games, it is likely expected that Vi and Jinx do not have a huge impact which makes the models effort to predict the outcome of the game compromised. There are very little Vi and Jinx games compared to the total number of games as well. With even more data, perhaps the model could do better. Another way to improve the model is to incorporate statistics that are available further into a match. However, although more accurate, this is clearly less practical and useful. It would, however, allow for a continued progression of odds across the game, similar to Google's updating odds on sports games.
