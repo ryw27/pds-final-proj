@@ -45,10 +45,10 @@ To compare the two distributions of win rates, the plots were overlaid next to e
 
 ### **Interesting Aggregates**
 
-        Jinx   Vi
-Result           
-0       1675  303
-1       1674  266
+| Result | Jinx | Vi   |
+|--------|------|------|
+| 0      | 1675 | 303  |
+| 1      | 1674 | 266  |
 
 To put the counts of wins for teams with Vi and Jinx into an easy-to-read table, we created a pivot table to show the win frequencies. There seems to be an equal amount of wins and losses for teams with Jinx, while for teams with Vi there are actually more losses than wins.
 
