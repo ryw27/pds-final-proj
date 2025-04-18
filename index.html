@@ -62,27 +62,45 @@
 
 <p>Next, the data was filtered for Vi and Jinx games in particular.  The original non filtered dataframe was used, meaning that games with NAN values were included. This may have affected the data, but the we thought the effect wasn’t too big. The more important aspect was seeing how prevalent the use of Jinx and Vi were. We first copied the original DataFrame, changing every entry in the character selection columns to NAN if they were not Jinx or Vi. Then, all rows with all NAN values in the character selection columns were dropped. The resulting DataFrame was one-hot encoded to yield a 3 column DataFrame, a boolean denoting the presence of Jinx in a game, a boolean for Vi, and the result. We were left with 3861 games, with 512 Vi only games, 3292 Jinx only games, 236 Vi wins, and 1644 Jinx wins. Finally, these datapoints were used to create the following graph. Clearly, Jinx was the more popular character.</p>
 
-<p><img src="../jinxvigames(1).png" alt="Vi and Jinx Popularity Comparison" />
+<p><img src="./jinxvigames(1).png" alt="Vi and Jinx Popularity Comparison" />
 <em>Figure 1: Side-by-side bar graphs of games with Vi and games with Jinx in comparison to total games</em></p>
 
 <p>Next, we  checked the win rate across different esports teams when playing Jinx and Vi. Again, the games without Jinx and Vi were filtered out. Then, the resulting dataframe was grouped by teamname, with the number of rows that each team played Jinx and the number of rows where each team played Jinx and won extracted out. The following histograms display the number of teams that had a win rate in some range when playing Jinx. For Vi, the data looked a little different. In general, there were many more games with Jinx in it. Jinx was a more popular and preferred choice for esports teams.</p>
 
-<p><img src="../viwinrate(1).png" alt="Vi and Jinx Popularity Comparison" />
+<p><img src="./viwinrate(1).png" alt="Vi and Jinx Popularity Comparison" />
 <em>Figure 2: Distribution of win rates across different esports teams when playing Vi</em></p>
 
-<p><img src="../jinxwinrate(1).png" alt="Vi and Jinx Popularity Comparison" />
+<p><img src="./jinxwinrate(1).png" alt="Vi and Jinx Popularity Comparison" />
 <em>Figure 3: Distribution of win rates across different esports teams when playing Jinx</em></p>
 
 <h3 id="bivariate-data"><strong>Bivariate Data</strong></h3>
 <p>To compare the two distributions of win rates, the plots were overlaid next to each other through the use of box plots. Jinx has a lower median win rate, as well as a lower minimum win rate. Vi has seen more success in competition, although this could be caused by the lower pick rate. Only teams with a particular specialist advantage with Vi would likely pick her.</p>
 
-<p><img src="../viandjinx(1).png" alt="Vi and Jinx Popularity Comparison" />
+<p><img src="./viandjinx(1).png" alt="Vi and Jinx Popularity Comparison" />
 <em>Figure 4: Side-by-side box plots of win rate distributions for Vi vs for Jinx</em></p>
-
 <h3 id="interesting-aggregates"><strong>Interesting Aggregates</strong></h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    Jinx   Vi Result            0       1675  303 1       1674  266
-</code></pre></div></div>
+<table>
+  <thead>
+    <tr>
+      <th>Result</th>
+      <th>Jinx</th>
+      <th>Vi</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Loss (0)</td>
+      <td>1675</td>
+      <td>303</td>
+    </tr>
+    <tr>
+      <td>Win (1)</td>
+      <td>1674</td>
+      <td>266</td>
+    </tr>
+  </tbody>
+</table>
 
 <p>To put the counts of wins for teams with Vi and Jinx into an easy-to-read table, we created a pivot table to show the win frequencies. There seems to be an equal amount of wins and losses for teams with Jinx, while for teams with Vi there are actually more losses than wins.</p>
 
@@ -216,7 +234,7 @@
 
 <p>Overall, although the model performance was not as good as we hoped it could be, League of Legends is an incredibly complex game and the results are still impressive. GLORY TO LEAGUE OF LEGENDS!!!!!!</p>
 
-<p><img src="../happy-vi-jinx.jpg" alt="Conclusion" /></p>
+<!-- ![Conclusion](../happy-vi-jinx.jpg) -->
 
   </div>
 
