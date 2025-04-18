@@ -20,11 +20,11 @@ We decided to focus on Vi and Jinx in particular, comparing their win rates and 
 
 
 ## **Data Cleaning and Exploratory Data Analysis**
-A lot of data cleaning was needed. There were multiple columns and rows that had NA values that needed to be cleaned in order to ensure best results. We first checked how many games had NA values in the character selections to see how many fully valid games were available. In the end, the massive amount of data was compressed to just 20378 games with all 5 character selections intact. [todo - how were columns cleaned?]
+A lot of data cleaning was needed. There were multiple columns and rows that had NA values that needed to be cleaned in order to ensure best results. We first checked how many games had NA values in the character selections to see how many fully valid games were available. In the end, the massive amount of data was compressed to just 20378 games with all 5 character selections intact. 
 
 ### **Univariate Analysis**
 
-Next, the data was filtered for Vi and Jinx games in particular.  The original non filtered dataframe was used, meaning that games with NAN values were included. This may have affected the data, but the we thought the effect wasn't too big. The more important aspect was seeing how prevalent the use of Jinx and Vi were. We first copied the original DataFrame, changing every entry in the character selection columns to NAN if they were not Jinx or Vi. Then, all rows with all NAN values in the character selection columns were dropped. The resulting DataFrame was one-hot encoded to yield a 3 column DataFrame, a boolean denoting the presence of Jinx in a game, a boolean for Vi, and the result. We were left with 3861 games, with 512 Vi only games, 3292 Jinx only games, 236 Vi wins, and 1644 Jinx wins. Finally, these datapoints were used to create the following graph. Clearly, Jinx was the more popular character.
+Next, the data was filtered for Vi and Jinx games in particular.  The original non filtered dataframe was used, meaning that games with NAN values were included. This may have affected the data, but we thought the effect wasn't too big. The more important aspect was seeing how prevalent the use of Jinx and Vi were. We first copied the original DataFrame, changing every entry in the character selection columns to NAN if they were not Jinx or Vi. Then, all rows with all NAN values in the character selection columns were dropped. The resulting DataFrame was one-hot encoded to yield a 3 column DataFrame, a boolean denoting the presence of Jinx in a game, a boolean for Vi, and the result. We were left with 3861 games, with 512 Vi only games, 3292 Jinx only games, 236 Vi wins, and 1644 Jinx wins. Finally, these datapoints were used to create the following graph. Clearly, Jinx was the more popular character.
 
 ![Vi and Jinx Popularity Comparison](../jinxvigames(1).png)
 *Figure 1: Side-by-side bar graphs of games with Vi and games with Jinx in comparison to total games*
@@ -54,7 +54,7 @@ To put the counts of wins for teams with Vi and Jinx into an easy-to-read table,
 
 ### **Prediction Problem**
 
-Since the distribution of win rates varired widely, an interesting research question was whether the result of a game containing Jinx and Vi as chosen characters could be predicted. This is a binary classification problem, since the model must know from the chosen columns whether the team with Jinx or Vi will win or not, simply 1 or 0. 
+Since the distribution of win rates varied widely, an interesting research question was whether the result of a game containing Jinx and Vi as chosen characters could be predicted. This is a binary classification problem, since the model must know from the chosen columns whether the team with Jinx or Vi will win or not, simply 1 or 0. 
 
 Multiple evaluations were calculated such as the MSE, F-1 score, and overall accuracy of the model. Our model is optimized based on the F-1 score. Since predictions of the outcome of a League of Legends game is most useful near the beginning, the columns that were selected primarily contained statistics of the early stages of the game. For example, the model uses multiple metrics that were taken 10 minutes into the game. The average League of Legends game is 25 - 35 minutes with pro matches sometimes lasting longer. 
 
@@ -74,7 +74,7 @@ The first step was to create the model pipeline. The character pick columns were
 
 ### **Final Model**
 
-Although the results were not terrible, they could be better. Once again, the character picks were one-hot encoded. Next, Polynomial Features were added to increase the complexity of the model for the 3 10-minute features. We did this to see whether there was a non-linear relationship between these statistics and the win/loss of the game. The features were scaled to prevent large coefficients before being put through Logistic Regression again. A grid search of the optimal degree for the polynomial features and C value of Logistic Regression, or the strength of Regularization. The Grid Search included a cross validation of 5 iterations. Again, a threshold of .5 was used. The results are displayed below. 
+Although the results were not terrible, they could be better. Once again, the character picks were one-hot encoded. Next, Polynomial Features were added to increase the complexity of the model for the 3 10-minute features. We did this to see whether there was a non-linear relationship between these statistics and the win/loss of the game. The features were scaled to prevent large coefficients before being put through Logistic Regression again. A grid search of the optimal degree for the polynomial features and C value or strength of Regularization of Logistic Regression. The Grid Search included a cross validation of 5 iterations. Again, a threshold of .5 was used. The results are displayed below. 
 
 | Evaluation Metric | Value |
 |------------------|-------|
@@ -84,7 +84,7 @@ Although the results were not terrible, they could be better. Once again, the ch
 
 *Table 2: Results of the final model (Logistic Regression)*
 
-The ideal paramaters were 2 for the polynomial degree and 1 for C or the regularization strength. The Logistic Regression penalty used was "l2" and the solver was scikit-learn's "lbgfs". \Unfortunately, the results didn't improve much, except for the F1 score which the model was specifically optimized for, increasing by .05. 
+The ideal paramaters were 2 for the polynomial degree and 1 for C or the regularization strength. The Logistic Regression penalty used was "l2" and the solver was scikit-learn's "lbgfs". Unfortunately, the results didn't improve much, except for the F1 score which the model was specifically optimized for, increasing by .05. 
 
 We decided to try the Random Forest Classifier as well, grid searching over the polynomial features degree as well as the  number of random forest classifier trees. We did this because we had a lot of data and Random Forest Classifiers perform better with large datasets, but this model performed worse. The best paramaters were a degree of 2 for the polynomial and 300 trees. 
 
@@ -115,4 +115,4 @@ With more late-game statistics, the model likely would have been more accurate, 
 
 Overall, although the model performance was not as good as we hoped it could be, League of Legends is an incredibly complex game and the results are still impressive. GLORY TO LEAGUE OF LEGENDS!!!!!!
 
-![Conclusion](../happy-vi-jinx.jpg)
+<!-- ![Conclusion](../happy-vi-jinx.jpg) -->
